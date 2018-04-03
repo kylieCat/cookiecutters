@@ -1,0 +1,22 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+  labels:
+    k8s-app: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+    ingress.unity3d.com/haproxy: haproxy
+  annotations:
+    dns.unity3d.com/domain: {{ "{{" }} .Values.service.domain {{ "}}" }}
+    dns.unity3d.com/hostname: {{ "{{" }} .Values.service.kube53_name {{ "}}" }}
+    dns.unity3d.com/class: route53
+    dns.unity3d.com/type: private
+spec:
+  selector:
+    app: {{ "{{" }} .Values.bakasura.name {{ "}}" }}
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP

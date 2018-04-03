@@ -1,0 +1,10 @@
+image:
+  repository: artifactory.eu-cph-1.unityops.net:5010/bakasura
+  tag: latest
+  pullPolicy: IfNotPresent
+ingress:
+  host:
+  name:
+service:
+  kube53_name:
+  domain:

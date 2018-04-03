@@ -1,0 +1,7 @@
+{
+  "svc_name": "",
+  "author": "Firstname Lastname",
+  "email": "you@unity3d.com",
+  "port": ":8080",
+  "description": "A short description of your service"
+}

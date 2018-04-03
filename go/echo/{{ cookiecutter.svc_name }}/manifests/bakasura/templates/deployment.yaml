@@ -1,0 +1,74 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+  name: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+  namespace: sre
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ "{{" }}  .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+    spec:
+      containers:
+      - name: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
+        image:  "{{ '{{' }} .Values.image.repository {{ '}}' }}:{{ '{{' }} .Values.image.tag {{ '}}' }}"
+        imagePullPolicy: IfNotPresent
+        command:
+        - ./{{ cookiecutter.svc_name }}
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        env:
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: SERVICE_NAME
+          value: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name }}
+        - name: KAFKA_ADDRS
+          value: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.cdp.brokers {{ "}}" }}'
+        - name: EVENTS_ENDPOINT
+          value: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.cdp.endpoint {{ "}}" }}'
+        - name: REDIS_ADDR
+          value: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.redis_addr {{ "}}" }}'
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: "/hc"
+          timeoutSeconds: 5
+          initialDelaySeconds: 15
+          periodSeconds: 5
+        resources:
+          requests:
+            cpu: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.resources.requests.cpu {{ "}}" }}'
+            memory: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.resources.requests.memory {{ "}}" }}'
+          limits:
+            cpu: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.resources.limits.cpu {{ "}}" }}'
+            memory: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.resources.limits.memory {{ "}}" }}'
+      - name: redis
+        image: redis:3.2
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 6379
+        resources:
+          requests:
+            cpu: '{{ "{{" }} .Values.redis.resources.requests.cpu {{ "}}" }}'
+            memory: '{{ "{{" }} .Values.redis.resources.requests.memory {{ "}}" }}'
+          limits:
+            cpu: '{{ "{{" }} .Values.redis.resources.limits.cpu {{ "}}" }}'
+            memory: '{{ "{{" }} .Values.redis.resources.limits.memory {{ "}}" }}'
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
