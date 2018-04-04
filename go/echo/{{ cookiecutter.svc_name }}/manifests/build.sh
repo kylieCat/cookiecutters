@@ -22,7 +22,7 @@ docker push ${DOCKER_TAG}
 
 REPO_URL=$( helm repo list | grep stg |awk '{ print $2}' )
 echo ${REPO_URL}
-helm package --version ${VERSION} manifests/${APP}
+helm package --version ${VERSION} manifests/${APP} -d ./manifests/${APP}
 
 curl  --data-binary "@${APP}-${VERSION}.tgz" ${REPO_URL}/api/charts
 helm repo index manifests/${APP} --url ${REPO_URL}

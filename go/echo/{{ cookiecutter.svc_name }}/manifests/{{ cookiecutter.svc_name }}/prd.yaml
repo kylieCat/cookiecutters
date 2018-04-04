@@ -1,6 +1,9 @@
 {{ cookiecutter.svc_name }}:
   name: {{ cookiecutter.svc_name }}
   environment: prd
+  cdp:
+    brokers: cdp.cloud.unity3d.com
+    endpoint: https://prd-lender.cdp.internal.unity3d.com/v1/events
   resources:
     requests:
       cpu: "250m"
