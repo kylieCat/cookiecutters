@@ -17,22 +17,23 @@ type Logger struct {
 
 const logFormat = log.Lshortfile|log.Ldate|log.Ltime|log.Lmicroseconds|log.LUTC
 
-func NewLogger() *Logger {
-	return &Logger{
-		debug: log.New(os.Stdout, "DEBUG: ", logFormat),
-		info: log.New(os.Stdout, "INFO: ", logFormat),
-		notice: log.New(os.Stdout, "NOTICE: ", logFormat),
-		warning: log.New(os.Stdout, "WARNING: ", logFormat),
-		error: log.New(os.Stdout, "ERROR: ", logFormat),
+var logger *Logger
+
+func Init() {
+	context := make([]interface{}, 2)
+
+	context[0] = "application={{ cookiecutter.svc_name }}"
+	context[1], _ = os.Hostname()
+
+	logger = &Logger{
+		debug:    log.New(os.Stdout, "DEBUG: ", logFormat),
+		info:     log.New(os.Stdout, "INFO: ", logFormat),
+		notice:   log.New(os.Stdout, "NOTICE: ", logFormat),
+		warning:  log.New(os.Stdout, "WARNING: ", logFormat),
+		error:    log.New(os.Stdout, "ERROR: ", logFormat),
 		critical: log.New(os.Stdout, "CRITICAL: ", logFormat),
+		context:  context,
 	}
-}
-
-var logger = NewLogger()
-
-func AddContext(value string) *Logger {
-	logger.context = append(logger.context, value)
-	return logger
 }
 
 func (l Logger) Debug(args ...interface{}) {

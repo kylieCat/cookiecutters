@@ -26,7 +26,7 @@ spec:
         image:  "{{ '{{' }} .Values.image.repository {{ '}}' }}:{{ '{{' }} .Values.image.tag {{ '}}' }}"
         imagePullPolicy: IfNotPresent
         command:
-        - ./{{ cookiecutter.svc_name }}
+        - ./{{ cookiecutter.svc_name }} -d /etc  -f {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.environment {{ "}}" }}
         ports:
         - containerPort: 8080
           name: http
@@ -38,12 +38,8 @@ spec:
               fieldPath: metadata.name
         - name: SERVICE_NAME
           value: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name }}
-        - name: KAFKA_ADDRS
-          value: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.cdp.brokers {{ "}}" }}'
         - name: EVENTS_ENDPOINT
           value: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.cdp.endpoint {{ "}}" }}'
-        - name: REDIS_ADDR
-          value: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.redis_addr {{ "}}" }}'
         readinessProbe:
           httpGet:
             port: 8080
@@ -58,17 +54,5 @@ spec:
           limits:
             cpu: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.resources.limits.cpu {{ "}}" }}'
             memory: '{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.resources.limits.memory {{ "}}" }}'
-      - name: redis
-        image: redis:3.2
-        imagePullPolicy: IfNotPresent
-        ports:
-        - containerPort: 6379
-        resources:
-          requests:
-            cpu: '{{ "{{" }} .Values.redis.resources.requests.cpu {{ "}}" }}'
-            memory: '{{ "{{" }} .Values.redis.resources.requests.memory {{ "}}" }}'
-          limits:
-            cpu: '{{ "{{" }} .Values.redis.resources.limits.cpu {{ "}}" }}'
-            memory: '{{ "{{" }} .Values.redis.resources.limits.memory {{ "}}" }}'
       dnsPolicy: ClusterFirst
       restartPolicy: Always

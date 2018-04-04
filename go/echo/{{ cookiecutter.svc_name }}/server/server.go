@@ -41,7 +41,7 @@ func NewServer(opts ...ServerOptFunc) *echo.Echo {
 // StartServer ...
 func StartServer() {
 	server := NewServer(
-		WithEndpoints(endpoints.InitEndpoints()),
+		WithEndpoints(endpoints.Init()),
 		WithMiddleware(middleware.LoggerWithConfig(middleware.LoggerConfig{
 				Format: "${method} ${uri} ${status} ${latency_human}\n",
 			}),

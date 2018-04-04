@@ -1,6 +1,6 @@
 {{ cookiecutter.svc_name }}:
   name: {{ cookiecutter.svc_name }}
-  environment: stg
+  environment: prd
   resources:
     requests:
       cpu: "250m"
@@ -14,3 +14,4 @@ ingress:
 service:
   kube53_name: {{ cookiecutter.svc_name }}
   domain: sre.ie.internal.unity3d.com
+  prometheus_port: "9000"

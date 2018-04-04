@@ -1,0 +1,13 @@
+{
+  "services": {
+    "http": {
+      "listen": "",
+      "port": "{{ cookiecutter.port }}"
+    }
+  },
+  "metrics": {
+    "enabled": false,
+    "endpoint": "/metrics",
+    "port": "{{ cookiecutter.prometheus_port }}"
+  }
+}

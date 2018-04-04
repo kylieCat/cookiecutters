@@ -1,6 +1,6 @@
 {{ cookiecutter.svc_name }}:
   name: {{ cookiecutter.svc_name }}
-  environment: stg
+  environment: dev
   resources:
     requests:
       cpu: "250m"

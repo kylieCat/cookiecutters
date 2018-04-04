@@ -3,5 +3,6 @@
   "author": "Firstname Lastname",
   "email": "you@unity3d.com",
   "port": ":8080",
+  "prometheus_port": "9000",
   "description": "A short description of your service"
 }

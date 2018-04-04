@@ -2,6 +2,6 @@ version: "3"
 services:
   {{ cookiecutter.svc_name }}:
     build: .
-    command: "./{{ cookiecutter.svc_name }}"
+    command: "./{{ cookiecutter.svc_name }} -d /etc -f dev"
     ports:
       - "8080:8080"

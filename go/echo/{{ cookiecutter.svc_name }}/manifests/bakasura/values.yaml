@@ -1,5 +1,5 @@
 image:
-  repository: artifactory.eu-cph-1.unityops.net:5010/bakasura
+  repository: artifactory.eu-cph-1.unityops.net:5010/{{ cookiecutter.svc_name }}
   tag: latest
   pullPolicy: IfNotPresent
 ingress:
