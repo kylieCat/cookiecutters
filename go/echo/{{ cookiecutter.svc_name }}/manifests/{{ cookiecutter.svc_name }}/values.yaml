@@ -1,5 +1,5 @@
 image:
-  repository: artifactory.eu-cph-1.unityops.net:5010/{{ cookiecutter.svc_name }}
+  repository: {{ cookiecutter.docker_repo }}
   tag: latest
   pullPolicy: IfNotPresent
 ingress:

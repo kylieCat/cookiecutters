@@ -4,8 +4,8 @@ VERSION=$1
 NO_CLEANUP=$2
 
 APP={{ cookiecutter.svc_name }}
-CHARTS_MUSEUM=https://chartmuseum.stg.internal.unity3d.com/api/charts
-DOCKER_REPO=artifactory.eu-cph-1.unityops.net:5010
+CHARTS_MUSEUM={{ cookiecutter.charts_museum }}
+DOCKER_REPO={{ cookiecutter.docker_repo }}
 
 if [ "${NO_CLEANUP}" == "" ]; then
 	OLD_VERSION=$(echo "${VERSION} - .1"|bc)

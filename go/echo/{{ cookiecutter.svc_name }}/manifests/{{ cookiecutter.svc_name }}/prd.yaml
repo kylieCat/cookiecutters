@@ -1,9 +1,6 @@
 {{ cookiecutter.svc_name }}:
   name: {{ cookiecutter.svc_name }}
   environment: prd
-  cdp:
-    brokers: cdp.cloud.unity3d.com
-    endpoint: https://prd-lender.cdp.internal.unity3d.com/v1/events
   resources:
     requests:
       cpu: "250m"
@@ -11,10 +8,3 @@
     limits:
       cpu: "500m"
       memory: 250Mi
-ingress:
-  host: {{ cookiecutter.svc_name }}.sre.ie.internal.unity3d.com
-  name: {{ cookiecutter.svc_name }}-sre-ie-internal-unity3d-com
-service:
-  kube53_name: {{ cookiecutter.svc_name }}
-  domain: sre.ie.internal.unity3d.com
-  prometheus_port: "9000"

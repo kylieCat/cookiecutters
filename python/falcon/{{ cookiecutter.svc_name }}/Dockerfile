@@ -1,4 +1,4 @@
-FROM artifactory.eu-cph-1.unityops.net:5010/{{ cookiecutter.svc_name }}:base-1.0
-MAINTAINER Ian Auld <ian.auld@offerupnow.com>
+FROM {{ cookiecutter.docker_repo }}/{{ cookiecutter.svc_name }}:base-1.0
+MAINTAINER {{ cookiecutter.author }} <{{ cookiecutter.email }}>
 
 ADD ./{{ cookiecutter.svc_name}} /{{ cookiecutter.svc_name}}

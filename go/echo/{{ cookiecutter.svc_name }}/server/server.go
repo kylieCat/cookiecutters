@@ -5,8 +5,8 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/endpoints"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/logger"
+	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/endpoints"
+	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/logger"
 )
 
 type ServerOptFunc func(e *echo.Echo) error

@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"flag"
 
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/config"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/logger"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/server"
+	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/config"
+	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/logger"
+	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/server"
 )
 
 var configFileName = flag.String("f", "dev", "Config file name")

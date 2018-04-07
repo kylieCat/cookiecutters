@@ -2,7 +2,7 @@
 set -e
 
 APP={{ cookiecutter.svc_name }}
-REPO=artifactory.eu-cph-1.unityops.net:5010
+REPO={{ cookiecutter.docker_repo }}
 
 if [[ $# -lt 1 ]]; then
     echo "Usage: build_and_push_base_image.sh -v IMAGE_VERSION [-p]" >&2
