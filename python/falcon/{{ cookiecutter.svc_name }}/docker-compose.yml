@@ -1,0 +1,7 @@
+version: "3"
+services:
+  {{ cookiecutter.svc_name }}:
+    build: .
+    ports:
+      - "{{ cookiecutter.port}}:{{ cookiecutter.port}}"
+    command: "/venv/bin/gunicorn -c /{{ cookiecutter.svc_name }}/config/dev.py {{ cookiecutter.svc_name }}.server:app"

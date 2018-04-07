@@ -1,0 +1,19 @@
+{{ cookiecutter.svc_name }}:
+  name: {{ cookiecutter.svc_name }}
+  environment: dev
+  cdp:
+    brokers: kafka.lender.ausw1a.stg.cdp.internal.unity3d.com:9092
+    endpoint: https://stg-lender.cdp.internal.unity3d.com/v1/events
+  resources:
+    requests:
+      cpu: "250m"
+      memory: 50Mi
+    limits:
+      cpu: "500m"
+      memory: 250Mi
+ingress:
+  host: {{ cookiecutter.svc_name }}.stg.sre.ie.internal.unity3d.com
+  name: {{ cookiecutter.svc_name }}-stg-sre-ie-internal-unity3d-com
+service:
+  kube53_name: {{ cookiecutter.svc_name }}
+  domain: stg.sre.ie.internal.unity3d.com
