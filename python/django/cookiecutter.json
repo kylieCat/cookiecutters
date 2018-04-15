@@ -6,7 +6,6 @@
   "prometheus_port": "9000",
   "description": "A short description of your service",
   "venv_path": "~/.virtualenvs/{{ cookiecutter.svc_name }}",
-  "github_username":"",
-  "docker_repo": "{{ cookiecutter.github_username }}",
+  "docker_repo": "im-auld",
   "charts_museum": "https://kubernetes-charts.storage.googleapis.com"
 }

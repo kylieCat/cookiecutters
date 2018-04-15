@@ -1,0 +1,7 @@
+version: "3"
+services:
+  {{ cookiecutter.svc_name }}:
+    build: .
+    ports:
+    - "{{ cookiecutter.port}}:{{ cookiecutter.port}}"
+    command: "./{{ cookiecutter.svc_name }}/manage.py runserver 0.0.0.0:{{ cookiecutter.port }}"

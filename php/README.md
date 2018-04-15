@@ -1,1 +1,0 @@
-![lol](http://i0.kym-cdn.com/entries/icons/original/000/000/091/TrollFace.jpg)

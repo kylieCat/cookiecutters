@@ -1,12 +1,10 @@
 {
   "svc_name": "",
   "author": "Firstname Lastname",
-  "email": "you@unity3d.com",
+  "email": "you@email.com",
   "port": "8080",
-  "prometheus_port": "9000",
   "description": "A short description of your service",
-  "venv_path": "~/.virtualenvs/{{ cookiecutter.svc_name }}",
-  "github_username":"",
+  "github_username": "",
   "docker_repo": "{{ cookiecutter.github_username }}",
   "charts_museum": "https://kubernetes-charts.storage.googleapis.com"
 }

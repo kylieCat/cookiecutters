@@ -1,0 +1,7 @@
+FROM python:3.6
+MAINTAINER {{ cookiecutter.author}} <{{ cookiecutter.email }}>
+
+RUN mkdir /{{ cookiecutter.svc_name}}
+COPY requirements.txt /{{ cookiecutter.svc_name}}/requirements.txt
+RUN python3 -m venv venv && \ 
+    /venv/bin/pip install -r /{{ cookiecutter.svc_name}}/requirements.txt
