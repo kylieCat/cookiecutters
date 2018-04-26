@@ -1,3 +1,3 @@
-# SRE Cookiecutters
+# Cookiecutters
 
-Collection of `cookiecutter` templates for creating SRE services.
+Collection of `cookiecutter` templates for creating services.
