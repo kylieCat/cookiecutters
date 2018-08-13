@@ -1,9 +1,9 @@
 default: venv docker
 
-upb:
+run:
 	docker-compose up --build
 
-upd:
+rund:
 	docker-compose up -d
 
 ipyshell:
@@ -18,4 +18,4 @@ venv:
 
 docker:
 	echo "Building base Docker image (not pushing to remote)"
-	./scripts/build_and_push_base_image.sh -v 1.0
+	./scripts/build_and_push_base_image.sh -v 1.0.0

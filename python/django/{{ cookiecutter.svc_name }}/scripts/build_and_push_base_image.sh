@@ -17,7 +17,7 @@ do
         v | --version)
             new_tag=base-${OPTARG}
             echo "Using tag: ${new_tag}"
-            docker build -t ${APP}:"${new_tag}" .
+            docker build -t ${APP}:"${new_tag}" -f Dockerfile.base .
             docker tag ${APP}:"${new_tag}" ${REPO}/${APP}:"${new_tag}"
             echo "Built image: ${APP}:${new_tag}"
             ;;

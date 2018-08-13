@@ -1,0 +1,1 @@
+from .{{  cookiecutter.primary_model.lower() }} import {{  cookiecutter.primary_model.title() }}
