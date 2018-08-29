@@ -24,5 +24,5 @@ for CLUSTER in ${CLUSTERS}
 do
 	kubectl config set current-context ${TARGET}-${CLUSTER}
 	kubectl config set-context $(kubectl config current-context) --namespace=sre
-	helm upgrade ${APP} stg/${APP} --set image.tag=${VERSION} --values=manifests/${APP}/${TARGET}.yaml
+	helm upgrade --install ${APP} stg/${APP} --set image.tag=${VERSION} --values=manifests/${APP}/${TARGET}.yaml
 done

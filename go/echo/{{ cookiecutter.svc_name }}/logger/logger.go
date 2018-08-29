@@ -6,23 +6,23 @@ import (
 )
 
 type Logger struct {
-	context []interface{}
-	debug *log.Logger
-	info *log.Logger
-	notice *log.Logger
-	warning *log.Logger
-	error *log.Logger
+	context  []interface{}
+	debug    *log.Logger
+	info     *log.Logger
+	notice   *log.Logger
+	warning  *log.Logger
+	error    *log.Logger
 	critical *log.Logger
 }
 
-const logFormat = log.Lshortfile|log.Ldate|log.Ltime|log.Lmicroseconds|log.LUTC
+const logFormat = log.Lshortfile | log.Ldate | log.Ltime | log.LUTC
 
 var logger *Logger
 
 func Init() {
 	context := make([]interface{}, 2)
 
-	context[0] = "application={{ cookiecutter.svc_name }}"
+	context[0] = "application=xray"
 	context[1], _ = os.Hostname()
 
 	logger = &Logger{
@@ -66,6 +66,35 @@ func (l Logger) Critical(args ...interface{}) {
 	l.critical.Println(args...)
 }
 
+func (l Logger) Debugf(template string, args ...interface{}) {
+	args = append(args, l.context...)
+	l.debug.Printf(template, args...)
+}
+
+func (l Logger) Infof(template string, args ...interface{}) {
+	args = append(args, l.context...)
+	l.info.Printf(template, args...)
+}
+
+func (l Logger) Noticef(template string, args ...interface{}) {
+	args = append(args, l.context...)
+	l.notice.Printf(template, args...)
+}
+
+func (l Logger) Warningf(template string, args ...interface{}) {
+	args = append(args, l.context...)
+	l.warning.Printf(template, args...)
+}
+
+func (l Logger) Errorf(template string, args ...interface{}) {
+	args = append(args, l.context...)
+	l.error.Printf(template, args...)
+}
+
+func (l Logger) Criticalf(template string, args ...interface{}) {
+	args = append(args, l.context...)
+	l.critical.Printf(template, args...)
+}
 
 func Debug(args ...interface{}) {
 	logger.Debug(args...)
@@ -89,4 +118,28 @@ func Error(args ...interface{}) {
 
 func Critical(args ...interface{}) {
 	logger.Critical(args...)
+}
+
+func Debugf(template string, args ...interface{}) {
+	logger.Debugf(template, args...)
+}
+
+func Infof(template string, args ...interface{}) {
+	logger.Infof(template, args...)
+}
+
+func Noticef(template string, args ...interface{}) {
+	logger.Noticef(template, args...)
+}
+
+func Warningf(template string, args ...interface{}) {
+	logger.Warningf(template, args...)
+}
+
+func Errorf(template string, args ...interface{}) {
+	logger.Errorf(template, args...)
+}
+
+func Criticalf(template string, args ...interface{}) {
+	logger.Criticalf(template, args...)
 }
