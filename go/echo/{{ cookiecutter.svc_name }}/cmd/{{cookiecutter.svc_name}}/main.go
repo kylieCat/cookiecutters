@@ -5,10 +5,10 @@ import (
 	"flag"
 
 	"github.com/spf13/viper"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/config"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/logger"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/metrics"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/server"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/config"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/logger"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/metrics"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/server"
 )
 
 var configFileName = flag.String("f", "dev", "Config file name")
