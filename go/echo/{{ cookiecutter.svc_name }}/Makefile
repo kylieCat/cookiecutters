@@ -1,11 +1,10 @@
-default: deps
-
 # COLORS
 GREEN  := $(shell tput -Txterm setaf 2)
 YELLOW := $(shell tput -Txterm setaf 3)
 WHITE  := $(shell tput -Txterm setaf 7)
 RESET  := $(shell tput -Txterm sgr0)
-
+DIRTY := $(shell git diff --stat)
+TARGETS := test prd
 
 TARGET_MAX_CHAR_NUM=20
 ## Show help
@@ -25,42 +24,57 @@ help:
 	} \
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
-## Run the application using 'docker-compose up --build', no need to prebuild image
-run:
-	docker-compose up --build
+## Compile and build on the host machine and then run the resulting binary.
+quick:
+	@go build -o ./bin/{{cookiecutter.svc_name}}-server ./cmd/server/main.go
+	@./bin/{{cookiecutter.svc_name}}-server -f local -d ./src/config
 
-## Same as 'run' except uses the '-d' argument to up so the application runs as a daemon
-daemon:
-	docker-compose up -d
-
-## Runs docker system prune to remove cruft
+## Prune docker images
 prune:
 	yes | docker system prune
 
-## Runs the build script for a minor release. Requires the waypoint package
-minor:
-	./manifests/build.sh minor
+## Deploy a new release to the target environment that increments the patch version
+## Usage:
+##     make patch target=[test|prod]
+patch: validate
+	@./deploy/build.sh patch $(target)
+	@./deploy/deploy.sh $(target)
 
-## Runs the build script for a major release. Requires the waypoint package
-major:
-	./manifests/build.sh major
+## Deploy a new release to the target environment that increments the minor version
+## Usage:
+##     make minor target=[test|prod]
+minor: validate
+	@./deploy/build.sh minor $(target)
+	@./deploy/deploy.sh $(target)
 
-## Runs the build script for a patch release. Requires the waypoint package
-patch:
-	./manifests/build.sh patch
+## Deploy a new release to the target environment that increments the major version
+## Usage:
+##     make major target=[test|prd]
+major: validate
+	@./deploy/build.sh major $(target)
+	@./deploy/deploy.sh $(target)
 
-## Deploys the latest version to the staging clusters
-stage:
-	./manifests/deploy.sh stg
+## Deploy a release to the target environment that uses the current version
+## Usage:
+##     make rebuild target=[test|prd]
+rebuild: validate
+	@./deploy/build.sh rebuild $(target)
+	@./deploy/deploy.sh $(target)
 
-## Deploys the latest version to the prod clusters
-deploy:
-	./manifests/deploy.sh prd
+validate: installbump
+ifndef target
+	$(error 'target' is undefined. Use 'test' or 'prod' as the target argument)
+endif
+ifeq ($(filter $(target),$(TARGETS)),)
+	$(info $(target) not in valid targets; choices are: $(TARGETS))
+endif
+ifneq ($(DIRTY), )
+	$(error git working tree is dirty; commit or stash changes and try again)
+endif
 
-## Run dep ensure to install all deps
-deps:
-	dep ensure
-
-## Run dep ensure to update the sre provided packages.
-internal:
-	dep ensure -update gitlab.internal.unity3d.com/sre/pipboy gitlab.internal.unity3d.com/sre/pipeline
+## Create a virtualenv and install package for managing versions
+installbump:
+ifeq ($(wildcard ./.venv/.*),)
+	@python3 -m venv ./.venv
+	@./.venv/bin/pip install -U pip git+https://github.com/kylie-a/bumpversion.git
+endif

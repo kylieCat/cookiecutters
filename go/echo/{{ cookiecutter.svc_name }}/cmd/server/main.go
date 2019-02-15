@@ -5,9 +5,9 @@ import (
 	"flag"
 
 	"github.com/spf13/viper"
+	"gitlab.internal.unity3d.com/sre/metrics"
 	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/config"
 	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/logger"
-	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/metrics"
 	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/server"
 )
 
