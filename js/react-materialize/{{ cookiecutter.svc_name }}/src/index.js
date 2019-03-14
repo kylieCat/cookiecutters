@@ -1,5 +1,5 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from 'react-materialize';
+import ReactDOM from 'react-materialize-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Router from './components/Router';

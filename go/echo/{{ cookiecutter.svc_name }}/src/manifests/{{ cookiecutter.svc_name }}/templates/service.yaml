@@ -9,7 +9,9 @@ metadata:
   annotations:
     prometheus.io/name: {{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}
     prometheus.io/port: {{ "{{" }} .Values.service.prometheus_port {{ "}}" }}
-    prometheus.io/scr{{ "{{" }} .Values.{{ cookiecutter.svc_name }}.name {{ "}}" }}: 'true'
+    prometheus.io/scrape: 'true'
+    prometheus.io/probe: 'true'
+    prometheus.io/path: '/metrics'
     dns.unity3d.com/domain: {{ "{{" }} .Values.service.domain {{ "}}" }}
     dns.unity3d.com/hostname: {{ "{{" }} .Values.service.kube53_name {{ "}}" }}
     dns.unity3d.com/class: route53

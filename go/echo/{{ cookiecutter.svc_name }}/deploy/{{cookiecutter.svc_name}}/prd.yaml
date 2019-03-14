@@ -1,0 +1,7 @@
+credsPath: "/etc/gcp/prd.json"
+cluster: sre-prd
+environment: prd
+image:
+  pullPolicy: IfNotPresent
+ingress:
+  host: {{cookiecutter.svc.name}}.sre.ie.internal.unity3d.com

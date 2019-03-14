@@ -5,13 +5,20 @@ import (
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
-	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/endpoints"
-	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/logger"
+	"gitlab.internal.unity3d.com/sre/pipboy/generated/go/schemas"
+	"gitlab.internal.unity3d.com/sre/pipeline"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/endpoints"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/logger"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/metrics"
 )
+
+// placeholders to ensure these packages don't get removed by dep
+var _ = schemas.ObjectType_SERVICE
+var _ = pipeline.AlertEventName
 
 type ServerOptFunc func(e *echo.Echo) error
 
-func WithEndpoints(endpoints []endpoints.Endpoint) ServerOptFunc {
+func WithEndpoints(endpoints ...endpoints.Endpoint) ServerOptFunc {
 	return func(e *echo.Echo) error {
 		for _, ep := range endpoints {
 			e.Add(ep.Method, ep.Url, ep.Handler)
@@ -41,12 +48,14 @@ func NewServer(opts ...ServerOptFunc) *echo.Echo {
 // StartServer ...
 func StartServer() {
 	server := NewServer(
-		WithEndpoints(endpoints.Init()),
-		WithMiddleware(middleware.LoggerWithConfig(middleware.LoggerConfig{
+		WithEndpoints(endpoints.Init()...),
+		WithMiddleware(
+			middleware.LoggerWithConfig(middleware.LoggerConfig{
 				Format: "${method} ${uri} ${status} ${latency_human}\n",
 			}),
+			metrics.MetricsMiddleware(),
 		),
 	)
 	logger.Info("starting {{ cookiecutter.svc_name }} server")
-	log.Fatal(server.Start("{{ cookiecutter.port }}"))
+	log.Fatal(server.Start(":{{ cookiecutter.port }}"))
 }

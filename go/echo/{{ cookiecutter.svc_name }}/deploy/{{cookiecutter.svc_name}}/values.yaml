@@ -1,0 +1,28 @@
+credsPath: "/etc/gcp/test.json"
+name: xray
+replicaCount: 1
+revision: "HEAD"
+cluster: local
+environment: test
+namespace:
+image:
+  repository: gcr.io/unity-ie-sre-isolated-test/{{cookiecutter.svc.name}}
+  tag: 0.1.0
+  pullPolicy: Always
+service:
+  externalPort: 443
+  internalPort: 8080
+ingress:
+  enabled: true
+  host: {{cookiecutter.svc.name}}.test.sre.ie.internal.unity3d.com
+  annotations:
+    ingress.kubernetes.io/ssl-redirect: "true"
+  tls:
+    secretName: wildcard-sre
+resources:
+  limits:
+    cpu: 100m
+    memory: 256Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi

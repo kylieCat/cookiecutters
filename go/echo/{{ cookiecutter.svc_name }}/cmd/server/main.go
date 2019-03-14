@@ -4,9 +4,11 @@ import (
 	"fmt"
 	"flag"
 
-	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/config"
-	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/logger"
-	"github.com/{{ cookiecutter.github_username }}/{{ cookiecutter.svc_name }}/server"
+	"github.com/spf13/viper"
+	"gitlab.internal.unity3d.com/sre/metrics"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/config"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/logger"
+	"gitlab.internal.unity3d.com/sre/{{ cookiecutter.svc_name }}/src/server"
 )
 
 var configFileName = flag.String("f", "dev", "Config file name")
@@ -28,9 +30,10 @@ func main() {
 
 	vConf, err := readConf(configFilePath, configFileName)
 	if err != nil {
-		panic(fmt.Errorf("Could not read in config: %s", err.Error()))
+		panic(fmt.Errorf("could not read in config: %s", err.Error()))
 	}
 	config.Init(vConf)
 	logger.Init()
+	metrics.Init()
 	server.StartServer()
 }

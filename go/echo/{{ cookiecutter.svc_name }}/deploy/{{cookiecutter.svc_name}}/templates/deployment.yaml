@@ -1,0 +1,65 @@
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.name }}
+  name: {{ .Values.name }}
+  namespace: {{ .Values.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{  .Values.name }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 30%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.name }}
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - ./{{cookiecutter.svc_name}}-server
+          args:
+            - "-f"
+            - "{{ .Values.environment }}"
+            - "-d"
+            - "/etc"
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: SERVICE_NAME
+              value: {{ .Chart.Name }}
+            - name: CLUSTER_NAME
+              value: {{ .Values.cluster }}
+            - name: APP_VERSION
+              value: "{{ .Values.image.tag }}"
+            - name: GOOGLE_APPLICATION_CREDENTIALS
+              value: "{{ .Values.credsPath }}"
+          ports:
+            - containerPort: {{ .Values.service.internalPort }}
+          livenessProbe:
+            httpGet:
+              path: "/hc"
+              port: {{ .Values.service.internalPort }}
+            timeoutSeconds: 5
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: {{ .Values.service.internalPort }}
+              path: "/hc"
+            timeoutSeconds: 5
+            initialDelaySeconds: 15
+            periodSeconds: 5
+          resources:
+  {{ toYaml .Values.resources | indent 10 }}
